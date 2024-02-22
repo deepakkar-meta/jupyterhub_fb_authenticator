@@ -59,18 +59,19 @@ class FBDelegateBearerAuthenticator(FBAuthenticator):
                 user_id,
                 self.endpoint,
             )
-            auth_req = urllib.request.Request(self.endpoint, data=data, headers=headers)
-            with urllib.request.urlopen(auth_req) as response:
-                # If we're here, the user has passed authorization via the delegate.
-                body = response.read()
-                self.log.info("Auth response for user %s: %s", user_id, body)
-                return {
-                    "name": user_id,
-                    "auth_state": {
-                        "access_token": access_token,
-                        "fb_user": {"username": user_id},
-                    },
-                }
+            self.log.info("Access Token : %s", access_token)
+            # auth_req = urllib.request.Request(self.endpoint, data=data, headers=headers)
+            # with urllib.request.urlopen(auth_req) as response:
+            #     # If we're here, the user has passed authorization via the delegate.
+            #     body = response.read()
+            #     self.log.info("Auth response for user %s: %s", user_id, body)
+            #     return {
+            #         "name": user_id,
+            #         "auth_state": {
+            #             "access_token": access_token,
+            #             "fb_user": {"username": user_id},
+            #         },
+            #     }
         except urllib.error.HTTPError as e:
             if e.code in self.EXPECTED_ERROR_CODES:
                 self.log.warning(
